@@ -124,7 +124,8 @@ class CorsMiddleware(MiddlewareMixin):
         if conf.CORS_ORIGIN_ALLOW_ALL and not conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
         else:
-            response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+            if ACCESS_CONTROL_ALLOW_ORIGIN not in response:
+                response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
             patch_vary_headers(response, ['Origin'])
 
         if len(conf.CORS_EXPOSE_HEADERS):
